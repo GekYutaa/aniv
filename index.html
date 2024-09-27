@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Anniversary, Sayang!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Dancing+Script:wght@400;700&family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FFF0F5;
+            overflow-x: hidden;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: none;
+        }
+
+        .page.active {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #landing {
+            background: linear-gradient(45deg, #FF69B4, #FFB6C1);
+        }
+
+        .candles-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        .candle {
+            width: 50px;
+            height: 150px;
+            background: linear-gradient(to right, #FFA07A, #FF8C69, #FFA07A);
+            margin: 30px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 10px 10px 0 0;
+        }
+
+        .candle::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: #FFE4B5;
+            border-radius: 50%;
+        }
+
+        .candle::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 10px;
+            background: #CD853F;
+            border-radius: 50%;
+        }
+
+        .wick {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 20px;
+            background: #000;
+            z-index: 1;
+        }
+
+        .flame {
+            width: 20px;
+            height: 30px;
+            background: radial-gradient(#FFA500, #FF4500);
+            border-radius: 50% 50% 20% 20%;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: flicker 0.5s infinite alternate;
+            filter: blur(1px);
+        }
+
+        .flame::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 15px;
+            background: #FFF;
+            border-radius: 50%;
+            opacity: 0.7;
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) scale(1) rotate(-2deg); }
+            25% { transform: translateX(-51%) scale(1.05) rotate(1deg); }
+            50% { transform: translateX(-49%) scale(0.95) rotate(-1deg); }
+            75% { transform: translateX(-52%) scale(1.05) rotate(2deg); }
+            100% { transform: translateX(-50%) scale(1) rotate(0deg); }
+        }
+
+        .candle.off .flame {
+            display: none;
+        }
+
+        .candle.off::before {
+            background: #D3D3D3;
+        }
+
+        .greeting {
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-family: 'Dancing Script', cursive;
+            background-color: rgba(255, 20, 147, 0.7);
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        p {
+            font-size: 2rem;
+            animation: fadeInUp 1s ease-out 0.5s backwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .heart {
+            width: 50px;
+            height: 50px;
+            background: #FF1493;
+            position: absolute;
+            transform: rotate(45deg);
+            animation: heartBeat 1s infinite alternate;
+        }
+
+        .heart::before,
+        .heart::after {
+            content: '';
+            width: 50px;
+            height: 50px;
+            background: #FF1493;
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        .heart::before {
+            left: -25px;
+        }
+
+        .heart::after {
+            top: -25px;
+        }
+
+        @keyframes heartBeat {
+            0% { transform: rotate(45deg) scale(1); }
+            100% { transform: rotate(45deg) scale(1.1); }
+        }
+
+        .photo-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .photo {
+            width: 300px;
+            height: 200px;
+            margin: 1rem;
+            background-size: cover;
+            background-position: center;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .photo:hover {
+            transform: scale(1.05);
+        }
+
+        #music-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #FF69B4;
+            color: #ffffff;
+            border: none;
+            padding: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+        }
+
+        #music-button:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .candles-container {
+                max-width: 300px;
+            }
+
+            .candle {
+                width: 30px;
+                height: 30px;
+                margin: 5px;
+            }
+
+            h1 {
+                font-size: 3rem;
+            }
+
+            p {
+                font-size: 1.5rem;
+            }
+
+            .photo {
+                width: 250px;
+                height: 166px;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="landing" class="page active">
+        <div class="candles-container">
+            <!-- 9 lilin berbentuk love akan ditambahkan oleh JavaScript -->
+        </div>
+    </div>
+
+    <div id="greeting-page" class="page">
+        <div class="greeting">
+            <h1>Selamat Tanggal 28 yang ke 9 Sayangkuuu</h1>
+            <p>Tak terasaa yaa sudah 9 bulan hubungan kita berjalan, sudah banyak hal kita lewati bersama baik suka maupun duka, aku seneng bangett dan beruntung bangett punyaa ayangg di dalam hidupku
+                I Love you forever, semoga kedepannya jalan kita dipermudah dan apapun rintangannya aku harap eh tapi haruss siii kita harus bisa melewatinyaaaa, akuu sayanggg bangett samaaa sayangkuu cintakuu duniakuuu suamikuu tersayangg tercintaaa mwahh melewatinyaaaa
+                jangan lupa jugaa kasii hadiahh buat akuuuuu hhehehh...
+            </p>
+        </div>
+        <div class="photo-gallery">
+            <!-- 10 foto akan ditambahkan oleh JavaScript -->
+        </div>
+    </div>
+
+    <!-- Button untuk musik -->
+    <button id="music-button" onclick="toggleMusic()">♫</button>
+
+    <script>
+        let candlesLeft = 9;
+
+        // Generate 9 lilin berbentuk love
+        const candlesContainer = document.querySelector('.candles-container');
+        for (let i = 0; i < 9; i++) {
+            const candle = document.createElement('div');
+            candle.classList.add('candle');
+            candle.innerHTML = '<div class=" wick"></div><div class="flame"></div>';
+            candle.addEventListener('click', () => {
+                if (!candle.classList.contains('off')) {
+                    candle.classList.add('off');
+                    candle.querySelector('.flame').style.display = 'none';
+                    candlesLeft--;
+                    if (candlesLeft === 0) {
+                        document.getElementById('landing').classList.remove('active');
+                        document.getElementById('greeting-page').classList.add('active');
+                        addHearts();
+                    }
+                }
+            });
+            candlesContainer.appendChild(candle);
+        }
+
+        // Add floating hearts
+        function addHearts() {
+            for (let i = 0; i < 8; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.style.left = `${Math.random() * 100}vw`;
+                heart.style.top = `${Math.random() * 250}vh`;
+                heart.style.animationDelay = `${Math.random() * 2}s`;
+                document.body.appendChild(heart);
+            }
+        }
+
+        // Array yang berisi URL atau path dari gambar yang berbeda
+const photos = [
+    '1.jpg',
+    '2.jpg',
+    '3.jpg',
+    '4.jpg',
+    '5.jpg',
+    '6.jpg',
+    '7.jpg',
+    '8.jpg',
+    '9.jpg',
+    '10.jpeg',
+    '11.jpg',
+    '12.jpg'
+];
+
+// Tambahkan foto ke galeri dengan gambar yang berbeda
+const photoGallery = document.querySelector('.photo-gallery');
+photos.forEach(photoUrl => {
+    const photo = document.createElement('div');
+    photo.classList.add('photo');
+    photo.style.backgroundImage = `url('${photoUrl}')`; // Mengatur background-image dari setiap foto
+    photoGallery.appendChild(photo);
+});
+
+        // Toggle music function
+        let musicPlaying = false;
+        let audio = new Audio('kitabikinromantis.mp3');
+
+        function toggleMusic() {
+            if (!musicPlaying) {
+                audio.play();
+                musicPlaying = true;
+                document.getElementById('music-button').textContent = '🔇';
+            } else {
+                audio.pause();
+                musicPlaying = false;
+                document.getElementById('music-button').textContent = '♫';
+            }
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
